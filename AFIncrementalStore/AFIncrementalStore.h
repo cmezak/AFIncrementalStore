@@ -102,6 +102,11 @@
                     withContext:(NSManagedObjectContext *)context
                           error:(NSError *__autoreleasing *)error;
 
+/**
+ 
+ */
+- (NSString *)resourceIdentifierForManagedObject:(NSManagedObject *)managedObject;
+
 @end
 
 #pragma mark -

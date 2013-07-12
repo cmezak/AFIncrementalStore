@@ -301,6 +301,17 @@ withAttributeAndRelationshipValuesFromManagedObject:(NSManagedObject *)managedOb
     [backingObject setValuesForKeysWithDictionary:[managedObject dictionaryWithValuesForKeys:[managedObject.entity.attributesByName allKeys]]];
 }
 
+- (NSString *)resourceIdentifierForManagedObject:(NSManagedObject *)managedObject
+{
+    NSManagedObjectContext *backingContext = [self backingManagedObjectContext];
+	NSFetchRequest *backingFetchRequest = [[NSFetchRequest alloc] init];
+	backingFetchRequest.entity = [NSEntityDescription entityForName:managedObject.entity.name inManagedObjectContext:backingContext];
+    backingFetchRequest.resultType = NSDictionaryResultType;
+    backingFetchRequest.propertiesToFetch = [NSArray arrayWithObject:kAFIncrementalStoreResourceIdentifierAttributeName];
+    NSArray *results = [backingContext executeFetchRequest:backingFetchRequest error:nil];
+    return [[results firstObject] valueForKey:kAFIncrementalStoreResourceIdentifierAttributeName];
+}
+
 #pragma mark -
 
 - (BOOL)insertOrUpdateObjectsFromRepresentations:(id)representationOrArrayOfRepresentations
